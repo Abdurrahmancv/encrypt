@@ -1,4 +1,3 @@
-// Test 2 // Bunu bitir Godot'a başla // Temel motivasyonun Tacint unutma
 // Bunu sadece bitirmek için yaptım.
 #include <iostream>
 #include <fstream>
@@ -60,4 +59,5 @@ int main(){
     }
 
     return 0;
+
 }
