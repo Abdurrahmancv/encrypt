@@ -1,16 +1,20 @@
-// Bunu sadece bitirmek için yaptım.
 #include <iostream>
 #include <fstream>
 #include <string>
 using namespace std;
 
-// Şifreleme function'ı
-void xor_cipher(string& text, int index){
+// Şifreleme method'u
+void ascii_cipher(string& text, int index){
     string newText;
     for(int i=0; i<text.length(); i++){
         newText.push_back(text.at(i)+index);
     }
     text=newText;
+}
+
+// Dosya adı seçme method'u
+void fileNameChoice(string& filename){
+    cout<<"Dosya adi: "; cin>>filename; cin.ignore();
 }
 
 int main(){
@@ -24,7 +28,7 @@ int main(){
 
         switch(choice){
         case 1:
-            cout<<"Dosya adi: "; cin>>filename; cin.ignore();
+            fileNameChoice(filename);
 
             file.open(filename+".txt", ios::out);
 
@@ -32,7 +36,7 @@ int main(){
             else{
                 cout<<"Text: "; getline(cin, text);
         
-                xor_cipher(text, 2);
+                ascii_cipher(text, 2);
 
                 if(!file.is_open()) cout<<"Dosya bulunamadi\n";
                 else{
@@ -41,13 +45,14 @@ int main(){
                 }
             }break;
         case 2:
-            cout<<"Dosya adi: "; cin>>filename; cin.ignore();
+            fileNameChoice(filename);
+
             file.open(filename+".txt", ios::in);
 
             if(!file.is_open()) cout<<"Dosya bulunamadi\n";
             else{
                 while(getline(file, text)){
-                    xor_cipher(text, -2);
+                    ascii_cipher(text, -2);
                     cout<<text<<endl;
                 }
                 file.close();
@@ -59,5 +64,4 @@ int main(){
     }
 
     return 0;
-
 }
