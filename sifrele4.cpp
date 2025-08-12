@@ -1,16 +1,26 @@
-// Bunu mükemmel (daha perform ve güvenli) hale getirmeye çalışacaktım.
 #include <iostream>
 #include <fstream>
 using namespace std;
 
-void xor_cipher(string& text, int index){
+// Encryption methods
+void ascii_cipher(string& text, int index){
     string newText;
     for(int i=0; i<text.length(); i++){
-        //if(text.at(i)+index > 127) newText.push_back((text.at(i)+index)%127);
-        //else if(text.at(i)+index < 0) // C++ bunu kendi yapıyormuş.
+        //if(text.at(i)+index > 255) newText.push_back((text.at(i)+index)%255); // Canceled?
         newText.push_back(text.at(i)+index);
     }
     text=newText;
+}
+
+void xor_cipher(){}
+
+// Other
+void func1(string& filename){ // Dosya adı alır.
+    cout<<"File name: "; cin>>filename; cin.ignore();
+}
+
+void func2(int& key){ // Şifreleme anahtarı alır.
+    cout<<"Encryption key: "; cin>>key;
 }
 
 #include <string>
@@ -21,11 +31,14 @@ int main(){
         
         if(choose=="3"){cout<<"Goodbye\n"; break;}
         else{
-            cout<<"File name: "; string filename; cin>>filename; cin.ignore();
+            
             fstream file;
             string text;
+            string filename;
+            int key=0;
             
             if(choose=="1"){
+                func1(filename);
                 file.open(/*"files/"+*/filename+".txt", ios::out);
                 
                 if(!file.is_open()) cout<<"File cannot be opened\n";
@@ -34,8 +47,9 @@ int main(){
                     
                     if(!file.is_open()) cout<<"File not found\n";
                     else{
-                        cout<<"Encryption key: "; int key=0; cin>>key;
-                        xor_cipher(text, key);
+                        func2(key);
+
+                        ascii_cipher(text, key);
 
                         if(!file.is_open()) cout<<"File not found\n";
                         else{
@@ -46,13 +60,15 @@ int main(){
                 }
             }
             else if(choose=="2"){
+                func1(filename);
                 file.open(filename+".txt", ios::in);
                 
                 if(!file.is_open()) cout<<"File not found\n";
                 else{
-                    cout<<"Encryption key: "; int key=0; cin>>key;
+                    func2(key);
+
                     while(getline(file, text)){
-                        xor_cipher(text, -key);
+                        ascii_cipher(text, -key);
                         cout<<text<<endl;
                     }
                     file.close();
